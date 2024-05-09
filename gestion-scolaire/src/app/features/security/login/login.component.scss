@@ -1,0 +1,11 @@
+:host{
+  $primary-color : rgb(114, 124, 245);
+
+  main{
+    height: 100vh;
+
+    .card-header{
+      background-color: $primary-color;
+    }
+  }
+}

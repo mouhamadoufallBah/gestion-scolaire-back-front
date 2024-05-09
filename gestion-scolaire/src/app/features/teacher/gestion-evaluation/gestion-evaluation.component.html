@@ -1,0 +1,232 @@
+<div class="pagetitle">
+  <h1>La liste des évaluation</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Tableau de bord</a></li>
+      <li class="breadcrumb-item">Gestion des évaluation</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+
+<section class="section">
+  <!-- Button ajouter classe modal -->
+  <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#ajoutEvaluation">
+    Ajouter une évaluation
+  </button>
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="card">
+        <div class="card-body">
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Date</th>
+                <th scope="col" class="text-center">Type</th>
+                <th scope="col" class="text-center">Matiere</th>
+                <th scope="col" class="text-center">Classe</th>
+                <th scope="col" class="text-center">Semestre</th>
+                <th scope="col" class="text-center">Etat</th>
+                <th scope="col" class="text-center">Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+             @if (allEvaluation.length > 0) {
+              @for (item of allEvaluation; track $index) {
+                <tr>
+                  <td class="text-center" scope="row">1</td>
+                  <td class="text-center">{{ item.date }}</td>
+                  <td class="text-center">{{ item.type }}</td>
+                  <td class="text-center">{{ item.matiere_id | matiereIdToMatiereInfo:allSubjects}}</td>
+                  <td class="text-center">{{ item.classe_id | classeIdToClasseInfo:allClasses }}</td>
+                  <td class="text-center">{{ item.semestre }}</td>
+                  <td class="text-center">
+                    <span class="badge bg-success" *ngIf="item.etat=='Fait' " style="cursor: pointer;">{{ item.etat
+                      }}</span>
+                    <span class="badge bg-warning" *ngIf="item.etat=='En cours' " style="cursor: pointer;">{{ item.etat
+                      }}</span>
+                    <span class="badge bg-danger" *ngIf="item.etat=='Reporté' " style="cursor: pointer;">{{ item.etat
+                      }}</span>
+                  </td>
+                  <td class="text-center">
+                    <button class="btn  btn-sm btn-warning me-2" data-bs-toggle="modal" data-bs-target="#noteEvaluation"
+                      (click)="onGetEvaluation(item.id)">Note</button>
+                    <button class="btn  btn-sm btn-warning me-2" data-bs-toggle="modal"
+                      data-bs-target="#modifierEvaluation" (click)="onGetEvaluation(item.id)">Modifier</button>
+                    <button class="btn  btn-sm btn-danger me-2" (click)="ondDeleteEvaluation(item.id)">Supprimer</button>
+                  </td>
+                </tr>
+                }
+             }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Modal ajouter evaluation-->
+<div class="modal fade" id="ajoutEvaluation" tabindex="-1" aria-labelledby="ajoutEvaluationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="ajoutEvaluationLabel">Ajouter Evaluation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" [formGroup]="addForm">
+          <div class="col-md-12">
+            <div class="mb-2">
+              <label for="dateAdd">Date</label>
+              <input type="date" class="form-control" id="dateAdd" name="dateAdd" placeholder="Date de l'evaluation"
+                formControlName="date">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-2">
+              <label for="typeAdd">Séléctionner le type d'evaluation</label>
+              <select class="form-select" id="typeAdd" name="typeAdd" formControlName="type">
+                <option value="Devoir">Devoir</option>
+                <option value="Examen">Examen</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-2">
+              <label for="semetreAdd">Séléctionner la semestre</label>
+              <select class="form-select" id="semetreAdd" name="semetreAdd" formControlName="semestre">
+                <option value="Semestre 1">Semestre 1</option>
+                <option value="Semestre 2">Semestre 2</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" #closeAddExpenseModal data-bs-dismiss="modal">annuler</button>
+        <button type="button" class="btn btn-primary" (click)="onAddEvaluation()">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal modifier evaluation-->
+<div class="modal fade" id="modifierEvaluation" tabindex="-1" aria-labelledby="modifierEvaluationLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modifierEvaluationLabel">Modifier Evaluation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (evaluation) {
+        <form class="row g-3" [formGroup]="updateForm">
+          <div class="col-md-12">
+            <div class="mb-2">
+              <label for="dateUpdate">Date</label>
+              <input type="date" class="form-control" id="dateUpdate" name="dateUpdate"
+                placeholder="Date de l'evaluation" formControlName="date">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-2">
+              <label for="typeUpdate">Séléctionner le type d'evaluation</label>
+              <select class="form-select" id="typeUpdate" name="typeUpdate" formControlName="type">
+                <option value="Devoir">Devoir</option>
+                <option value="Examen">Examen</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-2">
+              <label for="semetreUpdate">Séléctionner la semestre</label>
+              <select class="form-select" id="semetreUpdate" name="semetreUpdate" formControlName="semestre">
+                <option value="Semestre 1">Semestre 1</option>
+                <option value="Semestre 2">Semestre 2</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-2">
+              <label for="etatUpdate">Séléctionner l'etat</label>
+              <select class="form-select" id="etatUpdate" name="etatUpdate" formControlName="etat">
+                <option value="Fait">Fait</option>
+                <option value="En cours">En cours</option>
+                <option value="Reporté">Reporté</option>
+              </select>
+            </div>
+          </div>
+        </form>
+        }
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+          #closeAddExpenseModalUpdate>annuler</button>
+        <button type="button" class="btn btn-primary" (click)="onUpdateEvaluation(evaluation.id)">Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal modifier Note-->
+<div class="modal fade" id="noteEvaluation" tabindex="-1" aria-labelledby="noteEvaluationLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="noteEvaluationLabel">Note de l'evaluation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (evaluation) {
+          @for (item of studentNoteForms; track $index) {
+            <div class="d-flex align-items-center justify-content-center mb-2">
+              <div class="col-md-7">
+                <h5>{{ studentsName[$index] }}</h5>
+              </div>
+              <div class="col-md-5">
+                <form [formGroup]="studentNoteForms[$index]">
+                  <div class="input-group mb-3">
+                    <input type="number" class="form-control" aria-label="Text input with dropdown button" formControlName="valeur" inputmode="numeric">
+
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">Action</button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      @if (evaluation.etat != "Fait") {
+                      <li><button class="dropdown-item text-secondary" style="cursor: pointer;" disabled>Voir note</button>
+                      </li>
+                      <li><button class="dropdown-item text-secondary" style="cursor: pointer;" disabled>Attribuer
+                          note</button></li>
+                      <li><button class="dropdown-item text-secondary" style="cursor: pointer;" disabled>Modifier
+                          note</button>
+                      </li>
+                      }@else {
+                      @if (haveNote[$index] == true) {
+                        <li><button type="button" class="dropdown-item text-primary" (click)="onGetStudentNote(studentsId[$index], $index)">Voir note</button></li>
+                        <li><button type="button" class="dropdown-item text-warning" (click)="onUpdateNote(studentsId[$index], $index)">Modifier</button></li>
+                      }@else {
+                        <li><button type="button" class="dropdown-item text-success" (click)="onAddNote(studentsId[$index], $index)">Attribuer note</button></li>
+                        <!-- <li><button type="button" class="dropdown-item text-warning" (click)="onUpdateNote(studentsId[$index], $index)">Modifier</button></li> -->
+                      }
+                      }
+                    </ul>
+                  </div>
+                </form>
+              </div>
+            </div>
+            }
+        }
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,157 @@
+<div class="pagetitle">
+  <h1>Tableau de bord</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Acceuil</a></li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Left side columns -->
+    <div class="col-lg-12">
+      <div class="row">
+
+        <!-- Sales Card -->
+        <div class="col-xxl-3 col-xl-12">
+          <div class="card info-card sales-card">
+
+            <div class="card-body">
+              <h5 class="card-title">Nombres de note</h5>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="ri-store-3-line"></i>
+                </div>
+                <div class="ps-3">
+                  <h6>{{ allNote.length }}</h6>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- End Sales Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-3 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Nombre d'évaluation programmer</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{ allEvaluation.length }}</h6>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-3 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Nombre d'evaluation en cours</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{ allEvaluationEncour.length }}</h6>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-3 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Nombre d'évaluation Reporter</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{ allEvaluationReporter.length }}</h6>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+        <!-- Recent Sales -->
+        <div class="col-12">
+          <div class="card recent-sales">
+
+            <div class="card-body">
+              <h5 class="card-title">La liste des note</h5>
+
+              <table class="table table-borderless datatable">
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col">#</th>
+                    <th class="text-center" scope="col">Date</th>
+                    <th class="text-center" scope="col">Type</th>
+                    <th class="text-center" scope="col">Matiere</th>
+                    <th class="text-center" scope="col">Semestre</th>
+                    <th class="text-center" scope="col">Note</th>
+                    <th class="text-center" scope="col">Appreciation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (item of allNote; track $index) {
+                  <tr>
+                    <th class="text-center" scope="row">{{ item.id_evaluation }}</th>
+                    <td class="text-center">{{ item.id_evaluation | evaluation:allEvaluation:true:false:false:false:allSubjects }}</td>
+                    <td class="text-center">{{ item.id_evaluation | evaluation:allEvaluation:false:true:false:false:allSubjects }}</td>
+                    <td class="text-center">{{ item.id_evaluation | evaluation:allEvaluation:false:false:true:false:allSubjects }}</td>
+                    <td class="text-center">{{ item.id_evaluation | evaluation:allEvaluation:false:false:false:true:allSubjects }}</td>
+                    <td class="text-center">{{ item.valeur }}</td>
+                    <td class="text-center">
+                      @if (item.valeur < 10) {
+                        <span class="badge bg-danger">Mauvaise</span>
+                      }@else if(item.valeur >10 && item.valeur < 15){
+                      <span class="badge bg-warning">Passable</span>
+                     }@else {
+                      <span class="badge bg-success">Bien</span>
+                     }
+                    </td>
+                  </tr>
+                }
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+        </div><!-- End Recent Sales -->
+
+
+      </div>
+    </div><!-- End Left side columns -->
+
+
+
+  </div>
+</section>

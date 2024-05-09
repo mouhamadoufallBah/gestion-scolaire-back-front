@@ -1,0 +1,53 @@
+<div class="position-absolute start-0 end-0 start-0 bottom-0 w-100 h-100">
+  <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 800 800'>
+    <g fill-opacity='0.22'>
+      <circle style="fill: rgba(114, 124, 245, 0.1)" cx='400' cy='400' r='600' />
+      <circle style="fill: rgba(114, 124, 245, 0.2)" cx='400' cy='400' r='500' />
+      <circle style="fill: rgba(114, 124, 245, 0.3)" cx='400' cy='400' r='300' />
+      <circle style="fill: rgba(114, 124, 245, 0.4)" cx='400' cy='400' r='200' />
+      <circle style="fill: rgba(114, 124, 245, 0.5)" cx='400' cy='400' r='100' />
+    </g>
+  </svg>
+</div>
+<main class="d-flex justify-content-center align-items-center flex-column">
+  <div class="col-xxl-3 col-lg-5 rounded-3 shadow mb-5">
+    <div class="card h-100">
+      <div class="card-header">
+        <div class="brand text-center py-4 text-white fw-bold">Gestion scolaire</div>
+      </div>
+      <div class="card-body py-4">
+        <div class="w-75 text-center m-auto">
+          <h4 class="text-dark-50 text-center pb-0 fw-bold">Se connecter</h4>
+          <p class="text-muted"> Entrer vos informations pour acceder à votre tableaux de bord</p>
+        </div>
+
+        <form [formGroup]="loginForm">
+          <div class="mb-3">
+            <label for="emailaddress" class="form-label">Email</label>
+            <input class="form-control" type="email" id="emailaddress" class="form-control" name="emailAddress"
+              required="" placeholder="Veuillez entrer votre adresse mail" formControlName="email"
+              autocomplete="username">
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <div class="input-group">
+              <input type="{{ passwordInputState ? 'text' : 'password' }}" id="password" class="form-control"
+                name="password" placeholder="Veuillez entrer votre mot de passe" formControlName="password"
+                autocomplete="current-password" aria-describedby="password-constraints">
+              <div class="input-group-text" (click)="togglePassword()" style="cursor: pointer;">
+                <span [ngClass]="{ 'bi-eye': !passwordInputState, 'bi-eye-slash': passwordInputState }"></span>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="mb-3 mb-0 text-center">
+          <button class="btn btn-primary" (click)="login()"> Connexion </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer footer-alt">
+    2024 © moohamad - gestion-scolaire.com
+  </footer>
+</main>

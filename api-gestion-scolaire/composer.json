@@ -1,0 +1,15 @@
+{
+    "name": "moohamad/api-gestion-scolaire.back",
+    "autoload": {
+        "psr-4": {
+            "Moohamad\\ApiGestionScolaireBack\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mouhamadoufallbah",
+            "email": "mouhamadoufall.bah@gmail.com"
+        }
+    ],
+    "require": {}
+}
